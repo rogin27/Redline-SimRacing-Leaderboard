@@ -1,0 +1,4 @@
+.DS_Store
+*.log
+leaderboard-*.csv
+leaderboard-backup-*.json

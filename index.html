@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Redline Leaderboard</title>
+<meta name="description" content="Fastest-lap leaderboard for racing simulator events.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Barlow:wght@400;500;600&family=Chivo+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ OPERATOR VIEW (your laptop) ============ -->
+<div id="operator">
+  <header class="bar">
+    <div class="wrap bar-inner">
+      <div class="logo"><i aria-hidden="true"></i>Redline <span>Leaderboard</span></div>
+      <button id="openDisplay" class="btn primary" type="button">Open display screen</button>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section class="panel" aria-labelledby="addH">
+      <h2 id="addH">Add lap</h2>
+      <form id="lapForm" novalidate>
+        <label>Driver
+          <input id="name" list="drivers" autocomplete="off" maxlength="28" placeholder="e.g. Marcus T.">
+        </label>
+        <datalist id="drivers"></datalist>
+        <label>Lap time
+          <input id="time" inputmode="decimal" autocomplete="off" placeholder="1:42.318">
+        </label>
+        <fieldset class="gears">
+          <legend>Gearbox</legend>
+          <label><input type="radio" name="gear" value="Auto" checked> Auto</label>
+          <label><input type="radio" name="gear" value="Paddles"> Paddles</label>
+          <label><input type="radio" name="gear" value="H-pattern"> H-pattern</label>
+        </fieldset>
+        <button class="btn primary" type="submit">Add to board</button>
+        <p id="formMsg" class="msg" aria-live="polite"></p>
+      </form>
+      <p class="hint">Type times as <b>1:42.318</b>, <b>1.42.318</b> or <b>102.318</b>. Press Enter to submit.</p>
+    </section>
+
+    <section class="panel span2" aria-labelledby="standH">
+      <div class="panel-head">
+        <h2 id="standH">Standings</h2>
+        <span id="meta" class="meta"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pos</th><th>Driver</th><th>Gear</th><th class="r">Time</th><th class="r">Gap</th><th></th></tr></thead>
+          <tbody id="standings"></tbody>
+        </table>
+      </div>
+      <p id="emptyOp" class="empty">No laps yet. Add the first one on the left.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="logH">
+      <h2 id="logH">Recent laps</h2>
+      <ol id="log" class="log"></ol>
+    </section>
+
+    <section class="panel span2" aria-labelledby="setH">
+      <h2 id="setH">Event settings</h2>
+      <div class="settings">
+        <label>Screen title<input id="sTitle" maxlength="40"></label>
+        <label>Subtitle / client name<input id="sSub" maxlength="50"></label>
+        <label>Rows on display<input id="sRows" type="number" min="3" max="20"></label>
+        <label class="check"><input id="sBest" type="checkbox"> Show each driver's best lap only</label>
+      </div>
+      <div class="actions">
+        <button id="newSession" class="btn" type="button">New session</button>
+        <button id="exportCsv" class="btn" type="button">Export CSV</button>
+        <button id="backup" class="btn" type="button">Download backup</button>
+        <label class="btn file">Restore backup<input id="restore" type="file" accept=".json,application/json"></label>
+        <button id="clearAll" class="btn danger" type="button">Clear everything</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ DISPLAY VIEW (TV / big screen) ============ -->
+<div id="display" hidden>
+  <div class="d-head">
+    <div>
+      <p id="dSub" class="d-sub"></p>
+      <h1 id="dTitle"></h1>
+    </div>
+    <div class="d-right">
+      <span class="d-live">● Live</span>
+      <span id="dSession" class="d-session"></span>
+    </div>
+  </div>
+  <div class="kerb" aria-hidden="true"></div>
+  <div id="dFlash" class="d-flash" hidden></div>
+  <ol id="dList" class="d-list"></ol>
+  <p id="dEmpty" class="d-empty">Waiting for the first lap…</p>
+  <button id="fsBtn" class="fs" type="button">Fullscreen</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
